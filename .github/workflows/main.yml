@@ -1,0 +1,26 @@
+name: Pipeline CI/CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-e-test:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.9-slim
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: pip install matplotlib
+
+      - name: Executar script do relógio
+        run: python relogio.py
+
+      - name: Executar script do gráfico
+        run: python plot_simples_grafico.py
+
+      - name: Notificação de Sucesso
+        run: bash notificacaoSucesso.sh
