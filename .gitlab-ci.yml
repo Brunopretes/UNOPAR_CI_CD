@@ -1,0 +1,36 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build_imagem:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "Construindo a imagem Docker..."
+    - docker build -t meu-app:latest .
+    - echo "Imagem construída com sucesso!"
+
+teste_python:
+  stage: test
+  image: python:3.9-slim
+  script:
+    - echo "Executando testes Python..."
+    - python relogio.py
+    - python plot_simples_grafico.py
+    - echo "Testes concluídos!"
+
+notificacao_sucesso:
+  stage: deploy
+  script:
+    - echo "Pipeline executado com sucesso!"
+    - bash notificacaoSucesso.sh
+
+notificacao_falha:
+  stage: deploy
+  script:
+    - echo "Pipeline falhou!"
+    - bash notificacaoFalha.sh
+  when: on_failure
