@@ -23,4 +23,4 @@ jobs:
         run: python plot_simples_grafico.py
 
       - name: Notificação de Sucesso
-        run: bash notificacaoSucesso.sh
+        run: exit 1
